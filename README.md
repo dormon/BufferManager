@@ -1,4 +1,4 @@
-BufferManager
+WindowManager
 =============
 
-Simple cpp manager of OpenGL buffer
+Very simple window manager for OpenGL using SDL
