@@ -1,4 +1,5 @@
 #include"CBufferManager.hpp"
+#include<iostream>
 
 namespace NDormon{
 	CBuffer::CBuffer(GLsizeiptr Size,const GLvoid*Data,
@@ -13,16 +14,20 @@ namespace NDormon{
 		glDeleteBuffers(1,&this->ID);//deletes buffer ID
 	}
 
-	void CBuffer::BindBuffer(GLenum Target){
+	void CBuffer::Bind(GLenum Target){
 		glBindBuffer(Target,this->ID);//bind buffer to specific target
 	}
 
-	void CBuffer::BindBufferRange(GLenum Target,GLuint Index,GLintptr Offset,
+	void CBuffer::UnBind(GLenum Target){
+		glBindBuffer(Target,0);//unbind buffer from specific target
+	}
+
+	void CBuffer::BindRange(GLenum Target,GLuint Index,GLintptr Offset,
 			GLsizeiptr Size){
 		glBindBufferRange(Target,Index,this->ID,Offset,Size);//bind buffer range
 	}
 
-	void CBuffer::BindBufferBase(GLenum Target,GLuint Index){
+	void CBuffer::BindBase(GLenum Target,GLuint Index){
 		glBindBufferBase(Target,Index,this->ID);//bind buffer base
 	}
 

@@ -32,7 +32,13 @@ namespace NDormon{
 			 *
 			 * @param Target target
 			 */
-			void BindBuffer(GLenum Target);
+			void Bind(GLenum Target);
+			/**
+			 * @brief Unbinds buffer from specific target
+			 *
+			 * @param Target target
+			 */
+			void UnBind(GLenum Target);
 			/**
 			 * @brief Binds range of buffer to specific target
 			 *
@@ -41,7 +47,7 @@ namespace NDormon{
 			 * @param Offset offset
 			 * @param Size size of buffer
 			 */
-			void BindBufferRange(GLenum Target,GLuint Index,GLintptr Offset,
+			void BindRange(GLenum Target,GLuint Index,GLintptr Offset,
 					GLsizeiptr Size);
 			/**
 			 * @brief Binds buffer t ospecific target
@@ -49,7 +55,7 @@ namespace NDormon{
 			 * @param Target target
 			 * @param Index index
 			 */
-			void BindBufferBase(GLenum Target,GLuint Index);
+			void BindBase(GLenum Target,GLuint Index);
 			/**
 			 * @brief Uploads data to GPU
 			 *
