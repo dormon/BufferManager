@@ -28,6 +28,12 @@ namespace NDormon{
 			 */
 			~CBuffer();
 			/**
+			 * @brief Returns buffer ID
+			 *
+			 * @return ID
+			 */
+			GLuint GetID();
+			/**
 			 * @brief Binds buffer to specific target
 			 *
 			 * @param Target target
@@ -165,5 +171,6 @@ namespace NDormon{
 			void Download(GLvoid*Data,GLintptr Offset,GLsizeiptr Size);
 	};
 }
+
 
 #endif//_CBUFFERMANAGER_HPP_

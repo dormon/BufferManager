@@ -10,8 +10,13 @@ namespace NDormon{
 		glBindBuffer(Target,0);//unbind buffer
 	}
 
+
 	CBuffer::~CBuffer(){
 		glDeleteBuffers(1,&this->ID);//deletes buffer ID
+	}
+
+	GLuint CBuffer::GetID(){
+		return this->ID;
 	}
 
 	void CBuffer::Bind(GLenum Target){
@@ -33,35 +38,35 @@ namespace NDormon{
 
 	void CBuffer::Upload(const GLvoid*Data){
 		GLint Usage;//usage of buffer
-		glGetBufferParameteriv(GL_VERTEX_ARRAY,GL_BUFFER_USAGE,&Usage);//get usage
-		glBindBuffer(GL_VERTEX_ARRAY,this->ID);//bind buffer
-		glBufferData(GL_VERTEX_ARRAY,this->Size,Data,Usage);//copy data
-		glBindBuffer(GL_VERTEX_ARRAY,0);//unbind buffer
+		glGetBufferParameteriv(GL_ARRAY_BUFFER,GL_BUFFER_USAGE,&Usage);//get usage
+		glBindBuffer(GL_ARRAY_BUFFER,this->ID);//bind buffer
+		glBufferData(GL_ARRAY_BUFFER,this->Size,Data,Usage);//copy data
+		glBindBuffer(GL_ARRAY_BUFFER,0);//unbind buffer
 	}
 
 	void CBuffer::Upload(
 			const GLvoid*Data,
 			GLintptr Offset,
 			GLsizeiptr Size){
-		glBindBuffer(GL_VERTEX_ARRAY,this->ID);//bind buffer
-		glBufferSubData(GL_VERTEX_ARRAY,Offset,Size,Data);//copy data
-		glBindBuffer(GL_VERTEX_ARRAY,0);//unbind buffer
+		glBindBuffer(GL_ARRAY_BUFFER,this->ID);//bind buffer
+		glBufferSubData(GL_ARRAY_BUFFER,Offset,Size,Data);//copy data
+		glBindBuffer(GL_ARRAY_BUFFER,0);//unbind buffer
 	}
 
 	void CBuffer::Clear(GLenum InternalFormat,GLenum Format,GLenum Type,
 			const GLvoid*Data){
-		glBindBuffer(GL_VERTEX_ARRAY,this->ID);//bind buffer
-		glClearBufferSubData(GL_VERTEX_ARRAY,InternalFormat,0,//clear buffer
+		glBindBuffer(GL_ARRAY_BUFFER,this->ID);//bind buffer
+		glClearBufferSubData(GL_ARRAY_BUFFER,InternalFormat,0,//clear buffer
 				this->Size,Format,Type,Data);
-		glBindBuffer(GL_VERTEX_ARRAY,0);//unbind buffer
+		glBindBuffer(GL_ARRAY_BUFFER,0);//unbind buffer
 	}
 
 	void CBuffer::Clear(GLenum InternalFormat,GLintptr Offset,GLsizeiptr Size,
 			GLenum Format,GLenum Type,const GLvoid*Data){
-		glBindBuffer(GL_VERTEX_ARRAY,this->ID);//bind buffer
-		glClearBufferSubData(GL_VERTEX_ARRAY,InternalFormat,0,//clear buffer
+		glBindBuffer(GL_ARRAY_BUFFER,this->ID);//bind buffer
+		glClearBufferSubData(GL_ARRAY_BUFFER,InternalFormat,0,//clear buffer
 				Size,Format,Type,Data);
-		glBindBuffer(GL_VERTEX_ARRAY,0);//unbind buffer
+		glBindBuffer(GL_ARRAY_BUFFER,0);//unbind buffer
 	}
 
 	void*CBuffer::Map(GLenum Target,GLenum Access){
@@ -114,15 +119,15 @@ namespace NDormon{
 	}
 
 	void CBuffer::Download(GLvoid*Data){
-		glBindBuffer(GL_VERTEX_ARRAY,this->ID);//bind buffer
-		glGetBufferSubData(GL_VERTEX_ARRAY,0,this->Size,Data);//obtain data
-		glBindBuffer(GL_VERTEX_ARRAY,0);//unbin buffer
+		glBindBuffer(GL_ARRAY_BUFFER,this->ID);//bind buffer
+		glGetBufferSubData(GL_ARRAY_BUFFER,0,this->Size,Data);//obtain data
+		glBindBuffer(GL_ARRAY_BUFFER,0);//unbin buffer
 	}
 
 	void CBuffer::Download(GLvoid*Data,GLintptr Offset,GLsizeiptr Size){
-		glBindBuffer(GL_VERTEX_ARRAY,this->ID);//bind buffer
-		glGetBufferSubData(GL_VERTEX_ARRAY,Offset,Size,Data);//obtain data
-		glBindBuffer(GL_VERTEX_ARRAY,0);//unbin buffer
+		glBindBuffer(GL_ARRAY_BUFFER,this->ID);//bind buffer
+		glGetBufferSubData(GL_ARRAY_BUFFER,Offset,Size,Data);//obtain data
+		glBindBuffer(GL_ARRAY_BUFFER,0);//unbin buffer
 	}
 
 }
