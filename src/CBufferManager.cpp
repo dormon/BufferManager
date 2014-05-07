@@ -8,6 +8,7 @@ namespace NDormon{
 		glBindBuffer(Target,this->ID);//bind buffer to target
 		glBufferData(Target,Size,Data,Usage);//allocate data of buffer
 		glBindBuffer(Target,0);//unbind buffer
+    this->Size=Size;
 	}
 
 
@@ -32,9 +33,17 @@ namespace NDormon{
 		glBindBufferRange(Target,Index,this->ID,Offset,Size);//bind buffer range
 	}
 
+  void CBuffer::UnBindRange(GLenum Target,GLuint Index){
+    glBindBufferBase(Target,Index,0);
+  }
+
 	void CBuffer::BindBase(GLenum Target,GLuint Index){
 		glBindBufferBase(Target,Index,this->ID);//bind buffer base
 	}
+
+  void CBuffer::UnBindBase(GLenum Target,GLuint Index){
+    glBindBufferBase(Target,Index,0);
+  }
 
 	void CBuffer::Upload(const GLvoid*Data){
 		GLint Usage;//usage of buffer
@@ -55,18 +64,18 @@ namespace NDormon{
 
 	void CBuffer::Clear(GLenum InternalFormat,GLenum Format,GLenum Type,
 			const GLvoid*Data){
-		glBindBuffer(GL_ARRAY_BUFFER,this->ID);//bind buffer
-		glClearBufferSubData(GL_ARRAY_BUFFER,InternalFormat,0,//clear buffer
+		glBindBuffer(GL_COPY_WRITE_BUFFER,this->ID);//bind buffer
+		glClearBufferSubData(GL_COPY_WRITE_BUFFER,InternalFormat,0,//clear buffer
 				this->Size,Format,Type,Data);
-		glBindBuffer(GL_ARRAY_BUFFER,0);//unbind buffer
+		glBindBuffer(GL_COPY_WRITE_BUFFER,0);//unbind buffer
 	}
 
 	void CBuffer::Clear(GLenum InternalFormat,GLintptr Offset,GLsizeiptr Size,
 			GLenum Format,GLenum Type,const GLvoid*Data){
-		glBindBuffer(GL_ARRAY_BUFFER,this->ID);//bind buffer
-		glClearBufferSubData(GL_ARRAY_BUFFER,InternalFormat,0,//clear buffer
+		glBindBuffer(GL_COPY_WRITE_BUFFER,this->ID);//bind buffer
+		glClearBufferSubData(GL_COPY_WRITE_BUFFER,InternalFormat,Offset,//clear buffer
 				Size,Format,Type,Data);
-		glBindBuffer(GL_ARRAY_BUFFER,0);//unbind buffer
+		glBindBuffer(GL_COPY_WRITE_BUFFER,0);//unbind buffer
 	}
 
 	void*CBuffer::Map(GLenum Target,GLenum Access){
@@ -130,4 +139,21 @@ namespace NDormon{
 		glBindBuffer(GL_ARRAY_BUFFER,0);//unbin buffer
 	}
 
+	CBufferManager::~CBufferManager(){
+		for(std::set<CBuffer*>::iterator i=this->Buffers.begin();i!=this->Buffers.end();++i){
+			delete(*i);
+		}
+		this->Buffers.clear();
+	}
+
+	CBuffer*CBufferManager::New(GLsizeiptr Size,const GLvoid*Data,GLenum Target,GLenum Usage){
+		CBuffer*Result=new CBuffer(Size,Data,Target,Usage);
+		this->Buffers.insert(Result);
+		return Result;
+	}
+
+	void CBufferManager::Remove(CBuffer*Buffer){
+		this->Buffers.erase(Buffer);
+		delete Buffer;
+	}
 }

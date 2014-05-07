@@ -2,6 +2,9 @@
 #define _CBUFFERMANAGER_HPP_
 
 #include<GL/glew.h>
+#include<iostream>
+#include<vector>
+#include<set>
 
 namespace NDormon{
 	/**
@@ -55,6 +58,13 @@ namespace NDormon{
 			 */
 			void BindRange(GLenum Target,GLuint Index,GLintptr Offset,
 					GLsizeiptr Size);
+      /**
+       * @brief Unbind buffer from specific target
+       *
+       * @param Target target
+       * @param Index index
+       */
+      void UnBindRange(GLenum Target,GLuint Index);
 			/**
 			 * @brief Binds buffer t ospecific target
 			 *
@@ -62,6 +72,13 @@ namespace NDormon{
 			 * @param Index index
 			 */
 			void BindBase(GLenum Target,GLuint Index);
+      /**
+       * @brief Unbind buffer from specific target
+       *
+       * @param Target target
+       * @param Index index
+       */
+      void UnBindBase(GLenum Target,GLuint Index);
 			/**
 			 * @brief Uploads data to GPU
 			 *
@@ -169,6 +186,35 @@ namespace NDormon{
 			 * @param Size size of region
 			 */
 			void Download(GLvoid*Data,GLintptr Offset,GLsizeiptr Size);
+	};
+
+	class CBufferManager{
+		private:
+			std::set<CBuffer*>Buffers;
+		public:
+			/**
+			 * @brief Destructor
+			 */
+			~CBufferManager();
+			/**
+			 * @brief Create new buffer in manager
+			 *
+			 * @param Size size of buffer in bytes
+			 * @param Data data of buffer
+			 * @param Target target
+			 * @param Usage type of usage
+			 *
+			 * @return buffer
+			 */
+			CBuffer*New(GLsizeiptr Size,const GLvoid*Data=NULL,
+					GLenum Target=GL_ARRAY_BUFFER,GLenum Usage=GL_STATIC_DRAW);
+			/**
+			 * @brief removes Buffer from buffer manager
+			 *
+			 * @param Buffer buffer
+			 */
+			void Remove(CBuffer*Buffer);
+
 	};
 }
 
